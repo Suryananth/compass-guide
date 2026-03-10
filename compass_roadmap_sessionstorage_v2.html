@@ -1953,7 +1953,24 @@ function showUpgrade() {
 }
 
 // ─── INIT ───
-generateRoadmap();
+generateRoadmap().catch(err => {
+  console.error('Init error:', err);
+  try {
+    const roadmap = getMockRoadmap(answers);
+    renderRoadmap(roadmap);
+  } catch(e) {
+    document.getElementById('loadingScreen').classList.add('hidden');
+    document.getElementById('errorScreen').classList.add('visible');
+  }
+});
+
+// Nuclear fallback — if still loading after 5s, force render
+setTimeout(() => {
+  if (!document.getElementById('loadingScreen').classList.contains('hidden')) {
+    console.warn('Forced render after timeout');
+    try { renderRoadmap(getMockRoadmap(answers)); } catch(e) { console.error(e); }
+  }
+}, 5000);
 </script>
 </body>
 </html>
