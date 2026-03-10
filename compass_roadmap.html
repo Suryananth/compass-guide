@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compass Guide — Your Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: rgba(201,168,76,0.12);
+    --gold-border: rgba(201,168,76,0.22);
+    --teal: #4ECDC4;
+    --teal-dim: rgba(78,205,196,0.1);
+    --teal-border: rgba(78,205,196,0.22);
+    --bg: #0A0C10;
+    --surface: #111620;
+    --surface2: #161C28;
+    --border: rgba(201,168,76,0.16);
+    --text: #F0EDE6;
+    --text-dim: rgba(240,237,230,0.55);
+    --text-muted: rgba(240,237,230,0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 10% 10%, rgba(201,168,76,0.05) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 70% at 90% 90%, rgba(78,205,196,0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,12,16,0.88);
+    backdrop-filter: blur(16px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon { width: 26px; height: 26px; }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .header-actions { display: flex; gap: 12px; align-items: center; }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+
+  .btn-outline:hover { background: var(--gold-dim); }
+
+  .btn-primary {
+    background: var(--gold);
+    color: #0A0C10;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); }
+
+  /* ─── LOADING STATE ─── */
+  .loading-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    gap: 28px;
+  }
+
+  .loading-screen.hidden { display: none; }
+
+  .compass-spinner {
+    width: 72px;
+    height: 72px;
+    animation: spinCompass 3s linear infinite;
+  }
+
+  @keyframes spinCompass {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .loading-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-align: center;
+    min-height: 20px;
+  }
+
+  .loading-bar-wrap {
+    width: 280px;
+    height: 2px;
+    background: rgba(201,168,76,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .loading-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .main { position: relative; z-index: 1; }
+
+  /* ─── HERO BANNER ─── */
+  .hero {
+    padding: 56px 48px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left { flex: 1; }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .hero-name span {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-track {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .track-pill {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-right {
+    flex-shrink: 0;
+    width: 180px;
+    text-align: center;
+  }
+
+  .north-star {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 12px;
+    opacity: 0.85;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.75; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
+
+  .north-star-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── SECTION NAV ─── */
+  .section-nav {
+    position: sticky;
+    top: 57px;
+    z-index: 90;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .nav-tab {
+    padding: 16px 24px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .nav-tab:hover { color: var(--text-dim); }
+  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 500; }
+
+  /* ─── CONTENT AREA ─── */
+  .content { padding: 0 48px 80px; max-width: 1100px; margin: 0 auto; }
+
+  /* ─── GRADE ARC ─── */
+  .arc-section {
+    padding: 56px 0 48px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.5s ease 0.1s both;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-dim);
+    margin-bottom: 36px;
+    letter-spacing: 0.02em;
+  }
+
+  .arc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .arc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .arc-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+  .arc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .arc-card.prep::before { background: linear-gradient(90deg, #4ECDC4, transparent); }
+  .arc-card.foundation::before { background: linear-gradient(90deg, var(--gold), transparent); }
+  .arc-card.execution::before { background: linear-gradient(90deg, #E8C97A, #4ECDC4); }
+
+  .arc-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .arc-card.prep .arc-phase { color: var(--teal); }
+  .arc-card.foundation .arc-phase { color: var(--gold); }
+  .arc-card.execution .arc-phase { color: var(--gold-light); }
+
+  .arc-grades {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .arc-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .arc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  .arc-item::before {
+    content: '→';
+    color: var(--gold);
+    font-size: 12px;
+    margin-top: 1px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  /* ─── DEEP DIVE SECTIONS ─── */
+  .deep-section {
+    padding: 52px 0 44px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .deep-section:last-child { border-bottom: none; }
+
+  .section-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  /* Cards grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .item-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .item-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
+
+  .item-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+
+  .item-name {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .item-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+  .badge-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid var(--teal-border); }
+  .badge-gray { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.08); }
+
+  .item-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .item-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Timeline list */
+  .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 28px; }
+
+  .timeline-item {
+    display: flex;
+    gap: 24px;
+    position: relative;
+    padding-bottom: 28px;
+  }
+
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  .timeline-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 80px;
+  }
+
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px var(--gold-border);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .timeline-line {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 8px;
+  }
+
+  .timeline-item:last-child .timeline-line { display: none; }
+
+  .timeline-grade {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .timeline-body {
+    flex: 1;
+    padding-top: 0;
+  }
+
+  .timeline-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .timeline-detail {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ─── FREE / LOCKED ─── */
+  .locked-overlay {
+    position: relative;
+    margin-top: 28px;
+  }
+
+  .locked-blur {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.4;
+  }
+
+  .locked-gate {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(to bottom, transparent, rgba(10,12,16,0.95) 40%);
+    border-radius: 12px;
+  }
+
+  .locked-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .locked-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 340px;
+    line-height: 1.5;
+  }
+
+  .btn-unlock {
+    background: var(--gold);
+    color: #0A0C10;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 32px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+    margin-top: 8px;
+  }
+
+  .btn-unlock:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.35); }
+
+  .unlock-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .header { padding: 14px 20px; }
+    .hero { padding: 36px 20px 32px; flex-direction: column; }
+    .hero-right { display: none; }
+    .section-nav { padding: 0 20px; }
+    .content { padding: 0 20px 60px; }
+    .arc-grid { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── ERROR STATE ─── */
+  .error-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    gap: 16px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .error-screen.visible { display: flex; }
+
+/* ─── TESTING TIMELINE STYLES ─── */
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+.test-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.test-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
+.test-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.test-card.psat8::before { background: linear-gradient(90deg, var(--teal), transparent); }
+.test-card.psat10::before { background: linear-gradient(90deg, var(--teal), transparent); }
+.test-card.nmsqt::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.test-card.sat::before { background: linear-gradient(90deg, var(--gold-light), transparent); }
+.test-card.act::before { background: linear-gradient(90deg, #a78bfa, transparent); }
+.test-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.test-full-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.test-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.test-meta-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.test-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+.test-chip.highlight { background: var(--gold-dim); border-color: var(--gold-border); color: var(--gold); }
+.test-chip.teal { background: var(--teal-dim); border-color: var(--teal-border); color: var(--teal); }
+.nmsqt-callout {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.04));
+  border: 1px solid var(--gold-border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-top: 28px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.nmsqt-icon { font-size: 32px; flex-shrink: 0; }
+.nmsqt-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.nmsqt-body {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.score-table {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: collapse;
+}
+.score-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.score-table td {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-dim);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+}
+.score-table td:first-child { color: var(--text); font-weight: 500; }
+.score-table tr:last-child td { border-bottom: none; }
+
+/* ─── JUNIOR READINESS CHECK ─── */
+.readiness-intro {
+  background: linear-gradient(135deg, rgba(78,205,196,0.06), rgba(78,205,196,0.02));
+  border: 1px solid var(--teal-border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.readiness-intro-text { font-size: 14px; font-weight: 300; color: var(--text-dim); line-height: 1.5; }
+.readiness-intro-text strong { color: var(--teal); font-weight: 500; }
+.checklist-group { margin-bottom: 28px; }
+.checklist-group-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.checklist-items { display: flex; flex-direction: column; gap: 8px; }
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.checklist-item:hover { border-color: rgba(201,168,76,0.3); }
+.checklist-item.done { border-color: rgba(78,205,196,0.3); background: rgba(78,205,196,0.04); }
+.check-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 11px;
+}
+.checklist-item.done .check-box {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #0A0C10;
+}
+.check-label { font-size: 14px; font-weight: 400; color: var(--text); line-height: 1.3; }
+.check-sub { font-size: 12px; font-weight: 300; color: var(--text-muted); margin-top: 3px; }
+.checklist-item.done .check-label { color: var(--text-dim); }
+.readiness-progress {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.readiness-pct {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0;
+  line-height: 1;
+}
+.readiness-bar-wrap { flex: 1; }
+.readiness-bar-label { font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+.readiness-bar-bg { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.readiness-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--teal)); border-radius: 3px; transition: width 0.6s ease; }
+
+/* ─── ESSAY SERVICES ─── */
+.essay-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+.essay-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.essay-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,0.3); }
+.essay-card.featured {
+  border-color: var(--gold-border);
+  background: linear-gradient(135deg, rgba(201,168,76,0.07), var(--surface));
+}
+.essay-card-icon { font-size: 26px; margin-bottom: 12px; display: block; }
+.essay-card-name { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.essay-card-desc { font-size: 13px; font-weight: 300; color: var(--text-dim); line-height: 1.5; margin-bottom: 16px; }
+.essay-card-when {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.essay-card-includes { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.essay-include-item {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.essay-include-item::before { content: '✓'; color: var(--teal); font-size: 11px; }
+.btn-essay {
+  background: transparent;
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: center;
+}
+.btn-essay:hover { background: var(--gold-dim); }
+.essay-card.featured .btn-essay {
+  background: var(--gold);
+  color: #0A0C10;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.essay-card.featured .btn-essay:hover { background: var(--gold-light); }
+.referral-timeline {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  margin-top: 32px;
+}
+.referral-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.referral-sub { font-size: 13px; font-weight: 300; color: var(--text-dim); margin-bottom: 24px; }
+.referral-steps { display: flex; flex-direction: column; gap: 0; }
+.referral-step {
+  display: flex;
+  gap: 18px;
+  padding-bottom: 22px;
+  position: relative;
+}
+.referral-step:last-child { padding-bottom: 0; }
+.referral-step-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 60px; }
+.referral-step-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 3px var(--gold-border);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.referral-step-line { width: 1px; flex: 1; background: var(--border); margin-top: 6px; }
+.referral-step:last-child .referral-step-line { display: none; }
+.referral-step-when {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.referral-step-body { flex: 1; padding-top: 0; }
+.referral-step-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; color: var(--text); }
+.referral-step-detail { font-size: 13px; font-weight: 300; color: var(--text-dim); line-height: 1.5; }
+
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <svg class="compass-spinner" viewBox="0 0 72 72" fill="none">
+    <circle cx="36" cy="36" r="34" stroke="rgba(201,168,76,0.2)" stroke-width="1.5"/>
+    <path d="M36 4 L40 32 L36 36 L32 32 Z" fill="#C9A84C"/>
+    <path d="M36 68 L32 40 L36 36 L40 40 Z" fill="rgba(201,168,76,0.35)"/>
+    <path d="M4 36 L32 32 L36 36 L32 40 Z" fill="rgba(201,168,76,0.35)"/>
+    <path d="M68 36 L40 40 L36 36 L40 32 Z" fill="#C9A84C"/>
+    <circle cx="36" cy="36" r="4" fill="#C9A84C"/>
+  </svg>
+  <div class="loading-title">Building your roadmap...</div>
+  <div class="loading-status" id="loadingStatus">Analyzing student profile</div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar" id="loadingBar"></div>
+  </div>
+</div>
+
+<!-- Error Screen -->
+<div class="error-screen" id="errorScreen">
+  <div style="font-size:40px">⚠️</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:28px">Something went wrong</div>
+  <div style="font-size:14px;color:var(--text-dim);max-width:400px;line-height:1.6" id="errorMsg">Unable to generate your roadmap. Please check your API key and try again.</div>
+  <button class="btn-primary" onclick="location.reload()" style="margin-top:8px;padding:12px 28px;font-size:14px">Try Again</button>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <a href="#" class="logo">
+    <svg class="logo-icon" viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="12" stroke="#C9A84C" stroke-width="1"/>
+      <path d="M13 2 L15 11 L13 13 L11 11 Z" fill="#C9A84C"/>
+      <path d="M13 24 L11 15 L13 13 L15 15 Z" fill="rgba(201,168,76,0.35)"/>
+      <path d="M2 13 L11 11 L13 13 L11 15 Z" fill="rgba(201,168,76,0.35)"/>
+      <path d="M24 13 L15 15 L13 13 L15 11 Z" fill="#C9A84C"/>
+      <circle cx="13" cy="13" r="2" fill="#C9A84C"/>
+    </svg>
+    <div class="logo-text">Compass Guide</div>
+  </a>
+  <div class="header-actions">
+    <button class="btn-outline" onclick="window.print()">Export PDF</button>
+    <button class="btn-primary" onclick="showUpgrade()">Unlock Full Access — $19/mo</button>
+  </div>
+</header>
+
+<!-- Section nav -->
+<nav class="section-nav" id="sectionNav" style="display:none">
+  <button class="nav-tab active" onclick="scrollTo('arc')">6-Year Arc</button>
+  <button class="nav-tab" onclick="scrollTo('competitions')">Competitions</button>
+  <button class="nav-tab" onclick="scrollTo('programs')">Programs</button>
+  <button class="nav-tab" onclick="scrollTo('testing')">Testing & NMSQT</button>
+  <button class="nav-tab" onclick="scrollTo('junior')">Junior Readiness</button>
+  <button class="nav-tab" onclick="scrollTo('essays')">Essay Services</button>
+  <button class="nav-tab" onclick="scrollTo('college')">College Apps</button>
+</nav>
+
+<!-- Main content -->
+<main class="main" id="mainContent" style="display:none">
+  <div class="content">
+
+    <!-- Hero -->
+    <div class="hero" id="heroSection">
+      <div class="hero-left">
+        <div class="hero-label">✦ YOUR PERSONALIZED ROADMAP</div>
+        <div class="hero-name">
+          <span id="heroName">Student</span>'s<br>North Star Plan
+        </div>
+        <div class="hero-track">
+          <span id="heroGrade" style="color:var(--text-dim)">Grade 9</span>
+          <span style="color:var(--text-muted)">·</span>
+          <span class="track-pill" id="heroTrack">STEM Research</span>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-value" id="statYears">—</div>
+            <div class="stat-label">Years mapped</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="statCompetitions">—</div>
+            <div class="stat-label">Competitions</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="statPrograms">—</div>
+            <div class="stat-label">Programs</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="statDeadlines">—</div>
+            <div class="stat-label">Key deadlines</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <svg class="north-star" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="56" stroke="rgba(201,168,76,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
+          <circle cx="60" cy="60" r="38" stroke="rgba(201,168,76,0.18)" stroke-width="1"/>
+          <path d="M60 8 L64 52 L60 60 L56 52 Z" fill="#C9A84C"/>
+          <path d="M60 112 L56 68 L60 60 L64 68 Z" fill="rgba(201,168,76,0.3)"/>
+          <path d="M8 60 L52 56 L60 60 L52 64 Z" fill="rgba(201,168,76,0.3)"/>
+          <path d="M112 60 L68 64 L60 60 L68 56 Z" fill="#C9A84C"/>
+          <path d="M60 24 L62 52 L60 60 L58 52 Z" fill="rgba(201,168,76,0.4)"/>
+          <path d="M96 24 L70 54 L60 60 L66 48 Z" fill="rgba(201,168,76,0.25)"/>
+          <path d="M96 96 L66 72 L60 60 L70 66 Z" fill="rgba(201,168,76,0.25)"/>
+          <path d="M24 96 L50 66 L60 60 L54 72 Z" fill="rgba(201,168,76,0.25)"/>
+          <path d="M24 24 L54 48 L60 60 L50 54 Z" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="60" cy="60" r="5" fill="#C9A84C"/>
+          <circle cx="60" cy="60" r="2.5" fill="#0A0C10"/>
+        </svg>
+        <div class="north-star-label">Your direction</div>
+      </div>
+    </div>
+
+    <!-- 6-Year Arc -->
+    <div class="arc-section" id="arc">
+      <div class="section-heading">The 6-Year Arc</div>
+      <div class="section-sub">Three phases. Each builds on the last.</div>
+      <div class="arc-grid" id="arcGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Competitions -->
+    <div class="deep-section" id="competitions" style="animation-delay:0.15s">
+      <span class="section-icon">🏆</span>
+      <div class="section-heading">Competitions & Awards</div>
+      <div class="section-sub">Ranked by impact. Sequenced by grade.</div>
+      <div class="cards-grid" id="competitionsGrid"></div>
+    </div>
+
+    <!-- Programs -->
+    <div class="deep-section" id="programs" style="animation-delay:0.2s">
+      <span class="section-icon">🎓</span>
+      <div class="section-heading">Summer Programs & Opportunities</div>
+      <div class="section-sub">Selective programs that open doors.</div>
+
+      <!-- Free: show first 2. Rest locked -->
+      <div class="cards-grid" id="programsGrid"></div>
+
+      <div class="locked-overlay" id="programsLock">
+        <div class="locked-blur" id="programsBlurContent"></div>
+        <div class="locked-gate">
+          <div style="font-size:28px">🔒</div>
+          <div class="locked-label">4 more programs in your roadmap</div>
+          <div class="locked-sub">See the full ranked list with deadlines, costs, and application tips — plus your complete college application timeline.</div>
+          <button class="btn-unlock" onclick="showUpgrade()">Unlock Full Access</button>
+          <div class="unlock-price">$19 / month · Cancel anytime</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Testing Timeline -->
+    <div class="deep-section" id="testing" style="animation-delay:0.25s">
+      <span class="section-icon">📝</span>
+      <div class="section-heading">Testing Timeline & NMSQT</div>
+      <div class="section-sub">Every test. Every score target. Every deadline — starting from grade 8.</div>
+
+      <div class="test-grid" id="testingGrid"></div>
+
+      <div class="nmsqt-callout" id="nmsqtCallout">
+        <div class="nmsqt-icon">🏅</div>
+        <div>
+          <div class="nmsqt-title">National Merit Scholarship — The Full Picture</div>
+          <div class="nmsqt-body" id="nmsqtBody"></div>
+          <table class="score-table" id="nmsqtTable"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Junior Year Readiness Check -->
+    <div class="deep-section" id="junior" style="animation-delay:0.3s">
+      <span class="section-icon">✅</span>
+      <div class="section-heading">Junior Year Readiness Check</div>
+      <div class="section-sub">By end of 11th grade, every item below should be green. This is your college application launchpad.</div>
+
+      <div class="readiness-intro">
+        <div style="font-size:28px;flex-shrink:0">🎯</div>
+        <div class="readiness-intro-text">
+          Junior year is the <strong>last full year colleges see</strong> before admissions decisions. Grades, test scores, activities, and relationships with recommenders must all be in place by May. Check off items as you complete them.
+        </div>
+      </div>
+
+      <div id="readinessChecklist"></div>
+
+      <div class="readiness-progress">
+        <div class="readiness-pct" id="readinessPct">0%</div>
+        <div class="readiness-bar-wrap">
+          <div class="readiness-bar-label" id="readinessLabel">0 of 0 items complete — start checking things off</div>
+          <div class="readiness-bar-bg">
+            <div class="readiness-bar-fill" id="readinessFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Essay Writing Services -->
+    <div class="deep-section" id="essays" style="animation-delay:0.35s">
+      <span class="section-icon">✍️</span>
+      <div class="section-heading">Essay Writing Services</div>
+      <div class="section-sub">The right words at the right time. From first draft to final submission.</div>
+
+      <div class="essay-services-grid" id="essayServicesGrid"></div>
+
+      <div class="referral-timeline" id="referralTimeline">
+        <div class="referral-title">Recommender & Referral Timeline</div>
+        <div class="referral-sub">Letters of recommendation cannot be rushed. Here is exactly when to ask, what to provide, and how to follow up.</div>
+        <div class="referral-steps" id="referralSteps"></div>
+      </div>
+    </div>
+
+    <!-- College Apps -->
+    <div class="deep-section" id="college" style="animation-delay:0.25s">
+      <span class="section-icon">📋</span>
+      <div class="section-heading">College Application Timeline</div>
+      <div class="section-sub">Every deadline. Every action. In order.</div>
+      <div class="timeline" id="collegeTimeline"></div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// ─── DEMO ANSWERS (replace with window.COMPASS_ANSWERS in production) ───
+const DEMO_ANSWERS = {
+  who: "A parent",
+  name: "Arjun",
+  grade: "9th Grade",
+  school: "Public School",
+  track: "STEM Research",
+  gpa: "3.5 – 3.9",
+  time: "5–10 hrs/week",
+  activities: "Math team, Science Olympiad, plays piano",
+  goals: "MIT, maybe research in bioengineering or CS",
+  email: "demo@compassguide.app"
+};
+
+const answers = window.COMPASS_ANSWERS || DEMO_ANSWERS;
+
+// ─── LOADING ANIMATION ───
+const loadingSteps = [
+  [0,   "Analyzing student profile"],
+  [15,  "Mapping the 6-year arc"],
+  [30,  "Selecting competitions for your track"],
+  [45,  "Identifying summer programs"],
+  [60,  "Building testing & NMSQT timeline"],
+  [72,  "Preparing Junior Year readiness check"],
+  [84,  "Setting up essay services & referrals"],
+  [94,  "Finalizing your roadmap"]
+];
+
+let stepIdx = 0;
+function tickLoader() {
+  if (stepIdx < loadingSteps.length) {
+    const [pct, msg] = loadingSteps[stepIdx];
+    document.getElementById('loadingBar').style.width = pct + '%';
+    document.getElementById('loadingStatus').textContent = msg;
+    stepIdx++;
+    setTimeout(tickLoader, 350);
+  }
+}
+tickLoader();
+
+// ─── MOCK ROADMAP DATA ───
+// NOTE: In production this is replaced by a real Claude API call via a Next.js /api route.
+// The prompt + schema are preserved below in buildPrompt() for Phase 2 wiring.
+function getMockRoadmap(a) {
+  const name = a.name || 'Student';
+  const gradeNum = parseInt(a.grade) || 9;
+  return {
+    summary: `${name} is on a strong trajectory toward top research universities. With Science Olympiad already on the resume and a genuine interest in bioengineering, the next 4 years should focus on transitioning from participant to originator — building an independent research project that can compete at ISEF by junior year.`,
+    stats: { yearsRemaining: 12 - gradeNum + 1, competitionCount: 8, programCount: 6, deadlineCount: 11 },
+    arc: [
+      {
+        phase: "PREPARATION", grades: "Grades 7–8", cardClass: "prep",
+        items: [
+          "Join Science Olympiad and Math Counts — build competitive habits early",
+          "Find a research mentor through university outreach or science teacher connections",
+          "Enter first regional science fair to learn project structure and judging criteria",
+          "Take Algebra II / Pre-Calc ahead of schedule to open AP doors in Grade 9"
+        ]
+      },
+      {
+        phase: "FOUNDATION", grades: "Grades 9–10", cardClass: "foundation",
+        items: [
+          "Launch an independent research project in bioengineering or computational biology",
+          "Apply to NASA SEES (Grade 10) and RSI summer programs for elite research exposure",
+          "Compete in Science Olympiad at state level — aim for Invitational circuit placements",
+          "Begin AP Biology, AP Chemistry, AP CS Principles — 3 science APs by end of Grade 10"
+        ]
+      },
+      {
+        phase: "EXECUTION", grades: "Grades 11–12", cardClass: "execution",
+        items: [
+          "Submit to ISEF via regional qualifier — this is the centerpiece of your MIT application",
+          "Apply for NIH SIP or Simons Summer Research for paid lab immersion",
+          "Start college list in Sept of Grade 11: MIT, Caltech, CMU, Johns Hopkins, UMich",
+          "Request research mentor letters in October of Grade 12 — these carry enormous weight"
+        ]
+      }
+    ],
+    competitions: [
+      {
+        name: "Intel ISEF", badge: "NATIONAL", badgeType: "gold",
+        description: `The world's largest pre-college science fair and the single most recognized competition for MIT admissions. ${name}'s bioengineering interest is a natural fit — judges in this category are actively looking for novel approaches.`,
+        grade: "Grade 10+", deadline: "March", difficulty: "Advanced"
+      },
+      {
+        name: "Science Olympiad Nationals", badge: "NATIONAL", badgeType: "gold",
+        description: `${name} is already competing — the goal is to reach Nationals by Grade 11. Events like Experimental Design and Forensics directly build the research thinking MIT values.`,
+        grade: "Grade 9+", deadline: "May", difficulty: "Intermediate"
+      },
+      {
+        name: "Regeneron Science Talent Search", badge: "NATIONAL", badgeType: "gold",
+        description: "The most prestigious high school science competition in the US — 40 finalists compete in Washington DC. Requires an original research paper submitted in Grade 12.",
+        grade: "Grade 12", deadline: "November", difficulty: "Advanced"
+      },
+      {
+        name: "JSHS (Junior Science & Humanities)", badge: "NATIONAL", badgeType: "teal",
+        description: "DoD-sponsored symposium where students present original research. Winning regional qualifies you for nationals — excellent pipeline to NIH internships.",
+        grade: "Grade 9+", deadline: "January", difficulty: "Intermediate"
+      },
+      {
+        name: "AMC 10/12 → AIME", badge: "NATIONAL", badgeType: "teal",
+        description: `Math talent strengthens a STEM research profile significantly. Qualifying for AIME (top 2.5%) by Grade 10 signals the quantitative ability MIT looks for in bioengineering candidates.`,
+        grade: "Grade 9+", deadline: "November", difficulty: "Advanced"
+      },
+      {
+        name: "Virginia Science & Engineering Fair", badge: "STATE", badgeType: "gray",
+        description: "VSEF is the ISEF qualifier for Virginia — winning or placing here is the direct path to competing nationally. Loudoun County has a strong feeder record.",
+        grade: "Grade 9+", deadline: "February", difficulty: "Intermediate"
+      },
+      {
+        name: "Conrad Challenge", badge: "NATIONAL", badgeType: "teal",
+        description: "NASA-affiliated innovation competition that rewards applied science with real-world impact. Strong fit for students interested in bioengineering applications.",
+        grade: "Grade 9+", deadline: "December", difficulty: "Intermediate"
+      },
+      {
+        name: "LCPS Regional Science Fair", badge: "REGIONAL", badgeType: "gray",
+        description: `Start here in Grade 9 — it's the entry point to VSEF and ISEF. ${name} should treat this as a design rehearsal for the bigger competitions ahead.`,
+        grade: "Grade 9+", deadline: "January", difficulty: "Beginner"
+      }
+    ],
+    programs: [
+      {
+        name: "NASA SEES (STEM Enhancement in Earth Science)", badge: "FREE", badgeType: "teal",
+        description: "NASA's free virtual research internship for high schoolers — students work with real NASA datasets and mentors. Perfect first research credential for Grade 10 and directly referenced in college apps.",
+        grade: "Grade 10+", deadline: "March", cost: "$0"
+      },
+      {
+        name: "NIH Summer Internship Program (SIP)", badge: "STIPEND", badgeType: "teal",
+        description: `Paid summer research at the National Institutes of Health in Bethesda — just 25 miles from Loudoun County. ${name}'s pre-med/bio interest makes this an ideal fit and the location is a major advantage.`,
+        grade: "Grade 11+", deadline: "February", cost: "Paid stipend"
+      },
+      {
+        name: "RSI at MIT (Research Science Institute)", badge: "FREE", badgeType: "gold",
+        description: "The most selective free summer research program in the country — 80 students spend 6 weeks at MIT doing original research. 90% of alumni attend Ivy+ schools. Apply Grade 11.",
+        grade: "Grade 11", deadline: "January", cost: "$0"
+      },
+      {
+        name: "Johns Hopkins CTY — Intensive Studies", badge: "PAID", badgeType: "gray",
+        description: "Rigorous residential summer program in STEM subjects including biomedical engineering. Strong alumni network and professor access — builds the academic identity early.",
+        grade: "Grade 9+", deadline: "April", cost: "$5,200"
+      },
+      {
+        name: "Simons Summer Research Program", badge: "STIPEND", badgeType: "gold",
+        description: "Paid 7-week research internship at Stony Brook University — students co-author real papers with faculty. One of the most college-application-impactful programs available.",
+        grade: "Grade 11", deadline: "January", cost: "Paid stipend"
+      },
+      {
+        name: "Polygence Independent Research", badge: "PAID", badgeType: "gray",
+        description: "Mentored 1-on-1 research program that helps students develop and publish original projects. Good bridge between Science Fair entry and ISEF-level work.",
+        grade: "Grade 9+", deadline: "Rolling", cost: "$2,990"
+      }
+    ],
+    collegeTimeline: [
+      {
+        grade: "Grade 9 — Now",
+        title: "Build the research foundation",
+        detail: `Register for LCPS Science Fair and commit to a research question in bioengineering or CS by October. Join Science Olympiad and Math Team. Talk to your science teacher about university lab contacts in the DMV area.`
+      },
+      {
+        grade: "Grade 9 — Spring",
+        title: "First competition entry",
+        detail: "Submit to LCPS Regional Science Fair. Treat the project write-up seriously — the abstract and methods section are the same format you'll use for ISEF in two years. Aim to qualify for VSEF."
+      },
+      {
+        grade: "Grade 10 — Fall",
+        title: "Apply to NASA SEES",
+        detail: "Application opens in January for summer programs. NASA SEES is free, highly credentialed, and within reach at Grade 10. This becomes your first named research credential on college apps."
+      },
+      {
+        grade: "Grade 10 — Spring",
+        title: "Declare your research direction",
+        detail: `By end of Grade 10, ${name} should have a clear research question that can carry through to ISEF. Talk to a university mentor, read 5 papers in the subfield, and write a 1-page project proposal.`
+      },
+      {
+        grade: "Grade 11 — September",
+        title: "Start college list and visit MIT",
+        detail: "Build a tiered list: 4 reach (MIT, Caltech, CMU, Johns Hopkins), 3 match (UMich, Georgia Tech, UIUC), 2 safety (UVA, VT). Visit MIT during a school break — the campus visit shapes how you write about it."
+      },
+      {
+        grade: "Grade 11 — November",
+        title: "Submit to Regeneron STS",
+        detail: "Regeneron STS requires a complete research paper — start drafting in September. Your Science Fair project from Grade 9-10 is the foundation. Have your mentor review two full drafts before submission."
+      },
+      {
+        grade: "Grade 11 — January",
+        title: "Apply to RSI and Simons",
+        detail: "Both programs open in January with February deadlines. RSI at MIT is the most selective — apply even if uncertain. Simons is slightly more accessible and equally impressive on applications."
+      },
+      {
+        grade: "Grade 12 — August",
+        title: "Draft the Common App research essay",
+        detail: `MIT's application rewards depth over breadth. ${name}'s story — immigrant family, self-directed research, Science Olympiad — is genuinely compelling. The research essay should describe the question, not the credential.`
+      },
+      {
+        grade: "Grade 12 — October",
+        title: "Request letters of recommendation",
+        detail: "Approach your research mentor and AP Science teacher in October — give them 6 weeks minimum. Provide each recommender a 1-page brag sheet with your research summary, competitions, and why MIT."
+      },
+      {
+        grade: "Grade 12 — November 1",
+        title: "MIT Early Action deadline",
+        detail: "MIT EA is non-binding but highly strategic — applying EA signals serious intent and slightly improves admit odds. Have all essays reviewed by a trusted adult and your school counselor before submission."
+      },
+      {
+        grade: "Grade 12 — January",
+        title: "Regular Decision submissions",
+        detail: "Submit remaining applications. Caltech, CMU SCS, Johns Hopkins BME, and your match/safety schools. Check each school's supplement requirements carefully — most require 2-3 short answers beyond Common App."
+      }
+    ]
+  };
+}
+
+
+// ─── TESTING / NMSQT MOCK DATA ───
+function getTestingData(a) {
+  const gradeNum = parseInt(a.grade) || 9;
+  return {
+    tests: [
+      {
+        id: 'psat8',
+        name: 'PSAT 8/9',
+        fullName: 'Preliminary SAT — Grades 8 & 9',
+        cardClass: 'psat8',
+        desc: 'Low-stakes first exposure to SAT-style questions. No consequences — just a diagnostic. Use the results to identify whether Math or Evidence-Based Reading needs more attention.',
+        chips: [
+          { label: 'Grade 8–9', type: '' },
+          { label: 'October', type: '' },
+          { label: 'Score: 240–1520', type: '' },
+          { label: 'No college impact', type: '' }
+        ]
+      },
+      {
+        id: 'psat10',
+        name: 'PSAT 10',
+        fullName: 'Preliminary SAT — Grade 10',
+        cardClass: 'psat10',
+        desc: 'A full-length PSAT in sophomore year. Score benchmark: aim for 1100+ to confirm you're on track for NMSQT qualification. More predictive of SAT performance than PSAT 8/9.',
+        chips: [
+          { label: 'Grade 10', type: '' },
+          { label: 'Spring', type: '' },
+          { label: 'Score: 320–1520', type: '' },
+          { label: 'Not for NM', type: '' }
+        ]
+      },
+      {
+        id: 'nmsqt',
+        name: 'PSAT/NMSQT',
+        fullName: 'National Merit Scholarship Qualifying Test',
+        cardClass: 'nmsqt',
+        desc: 'THIS IS THE ONE THAT COUNTS. Taken in Grade 11 October — this is the only PSAT that qualifies you for National Merit. A Commended Scholar score (~1460+ nationally) or Semifinalist (~1510+ in Virginia) opens scholarship doors worth $2,500–$10,000+.',
+        chips: [
+          { label: 'Grade 11 ONLY', type: 'highlight' },
+          { label: 'October', type: 'highlight' },
+          { label: 'VA Cutoff ~215 SI', type: 'highlight' },
+          { label: 'Scholarships', type: 'teal' }
+        ]
+      },
+      {
+        id: 'sat',
+        name: 'SAT',
+        fullName: 'Scholastic Assessment Test',
+        cardClass: 'sat',
+        desc: 'Primary admissions test for most colleges. For MIT and top engineering programs, target 1550+ (Math 790+). Take for the first time in Grade 10 spring or Grade 11 fall — gives time for retakes.',
+        chips: [
+          { label: 'Grade 10–12', type: '' },
+          { label: 'Year-round', type: '' },
+          { label: 'MIT target: 1550+', type: 'highlight' },
+          { label: '1600 max', type: '' }
+        ]
+      },
+      {
+        id: 'act',
+        name: 'ACT',
+        fullName: 'American College Testing',
+        cardClass: 'act',
+        desc: 'SAT alternative accepted by all US colleges. Some students score significantly better on ACT than SAT — worth taking once in Grade 11 to find out. MIT target: 35+. Science section is a natural strength for STEM students.',
+        chips: [
+          { label: 'Grade 11–12', type: '' },
+          { label: 'Multiple dates', type: '' },
+          { label: 'MIT target: 35+', type: '' },
+          { label: '36 max', type: '' }
+        ]
+      }
+    ],
+    nmsqt: {
+      body: `The PSAT/NMSQT taken in October of <strong>11th grade</strong> is the entry point to the National Merit Scholarship Program — one of the most recognized academic honors in the US. Based on the Selection Index (SI), students in Virginia typically need a score of <strong>215–219</strong> to reach Semifinalist status. Commended Scholar recognition starts around <strong>207</strong> nationally. Both are worth pursuing: Semifinalists compete for $2,500 National Merit Scholarships plus corporate-sponsored awards that can reach <strong>$10,000+</strong>.`,
+      table: [
+        ['Commended Scholar', '~207 SI (national)', 'Certificate + corporate sponsor eligibility'],
+        ['Semifinalist', '~215–219 SI (Virginia)', 'Compete for $2,500 NM Scholarship'],
+        ['Finalist', 'Semifinalist + application', 'Full scholarship competition + college recognition'],
+        ['Scholar', 'Finalist + sponsor match', 'Corporate scholarships up to $10,000+']
+      ]
+    }
+  };
+}
+
+// ─── JUNIOR READINESS MOCK DATA ───
+function getReadinessData(a) {
+  const name = a.name || 'Student';
+  return [
+    {
+      group: 'Academics',
+      items: [
+        { label: 'AP/Honors course load is competitive for target schools', sub: 'MIT average: 7+ AP courses' },
+        { label: 'GPA is on an upward or steady trajectory', sub: 'Grade 11 grades are the last full-year data colleges see' },
+        { label: 'PSAT/NMSQT taken in October of Grade 11', sub: 'Cannot be retaken — the only year that counts for National Merit' },
+        { label: 'SAT or ACT score at or near target range', sub: 'At least one official test taken; retake planned if needed' }
+      ]
+    },
+    {
+      group: 'Research & Activities',
+      items: [
+        { label: 'Primary extracurricular is clearly defined and deeply pursued', sub: 'Depth beats breadth for top schools' },
+        { label: 'At least one competition result worth listing on applications', sub: 'Regional, state, or national placement' },
+        { label: 'Summer research experience secured or completed', sub: 'NIH SIP, NASA SEES, university lab, or equivalent' },
+        { label: 'Activity list drafted — 10 entries with descriptions and hours', sub: 'Common App allows 150 characters per activity' }
+      ]
+    },
+    {
+      group: 'College Planning',
+      items: [
+        { label: 'College list drafted — at least 10 schools across reach/target/safety', sub: 'Research each school's specific program, not just rankings' },
+        { label: 'Visited at least 2–3 schools in person or virtually', sub: 'Campus visit details strengthen supplemental essays significantly' },
+        { label: 'College essay topic identified — first draft started', sub: 'The Common App essay takes 6–8 weeks to get right' },
+        { label: 'Scholarship search started — National Merit, STEM-specific, local', sub: 'Many scholarships open in junior year for senior year disbursement' }
+      ]
+    },
+    {
+      group: 'Recommenders & Network',
+      items: [
+        { label: 'Two teachers identified as recommendation writers', sub: 'Junior year teachers are preferred — they know you most recently' },
+        { label: 'Research mentor or professional reference identified', sub: 'For STEM tracks, a research mentor letter is a major differentiator' },
+        { label: 'Initial conversation with school counselor completed', sub: 'Counselors write one of the required Common App recommendations' },
+        { label: 'Brag sheet / resume prepared to share with recommenders', sub: '1-page summary of achievements, activities, and goals' }
+      ]
+    }
+  ];
+}
+
+// ─── ESSAY SERVICES MOCK DATA ───
+function getEssayServicesData(a) {
+  return {
+    services: [
+      {
+        icon: '📖',
+        name: 'Common App Personal Statement',
+        when: 'Start: Grade 11 Spring · Submit: Grade 12 August',
+        desc: 'Your 650-word story. This is the essay every school reads. We work through topic selection, multiple drafts, and final polish — making sure it sounds like you, not a template.',
+        includes: [
+          'Topic brainstorming session',
+          '3 rounds of written feedback',
+          'Final line edit before submission',
+          'Prompt alignment review'
+        ],
+        featured: true,
+        cta: 'Start My Personal Statement'
+      },
+      {
+        icon: '🎓',
+        name: 'Supplemental Essays',
+        when: 'Start: Grade 12 September · Submit: Per school deadline',
+        desc: 'School-specific essays — "Why MIT?", "Why Major?", community essays, and short answers. We build a bank of answers you can adapt across schools.',
+        includes: [
+          'Per-school essay strategy',
+          'Why School? essay for each target',
+          'Short answer and activity descriptions',
+          'Adaptation guidance for safety/match schools'
+        ],
+        featured: false,
+        cta: 'Plan My Supplements'
+      },
+      {
+        icon: '🏅',
+        name: 'Scholarship Essays',
+        when: 'National Merit: Grade 12 Oct · Others: Year-round',
+        desc: 'National Merit finalist essay, corporate scholarship applications, and external scholarships like Questbridge, Gates, and school-specific awards.',
+        includes: [
+          'National Merit finalist essay (if applicable)',
+          'QuestBridge or Gates application support',
+          'Local and STEM-specific scholarship applications',
+          'Reuse strategy — one story, many applications'
+        ],
+        featured: false,
+        cta: 'Find My Scholarships'
+      },
+      {
+        icon: '📄',
+        name: 'Resume & Activity List',
+        when: 'Build: Grade 11 Spring · Update: Grade 12 August',
+        desc: 'A 1-page resume for scholarship applications plus a polished Common App activity list. 150 characters per activity — every word counts.',
+        includes: [
+          'Activity list (10 entries, fully written)',
+          '1-page resume for scholarships and programs',
+          'Hours and leadership framing review',
+          'Honors section strategy'
+        ],
+        featured: false,
+        cta: 'Build My Activity List'
+      },
+      {
+        icon: '💬',
+        name: 'Add Your Own Service',
+        when: 'Available any time',
+        desc: 'Need something specific — interview prep, waitlist letters, deferral responses, or a transfer application? Tell us what you need.',
+        includes: [
+          'Interview preparation and mock sessions',
+          'Waitlist / deferral letters',
+          'Transfer application essays',
+          'Any custom writing need'
+        ],
+        featured: false,
+        cta: 'Request a Service →'
+      }
+    ],
+    referralSteps: [
+      {
+        when: 'Grade 11
+March',
+        title: 'Identify your two teacher recommenders',
+        detail: 'Choose teachers from junior year who have seen your best work — ideally in subjects relevant to your intended major. AP Biology and AP Research teachers are strong choices for a STEM track.'
+      },
+      {
+        when: 'Grade 11
+May',
+        title: 'Have the conversation — ask in person',
+        detail: 'Ask before summer. A face-to-face ask is more memorable than an email. Say: "I'm applying to competitive schools in the fall and I would be honored if you'd write a strong letter for me."'
+      },
+      {
+        when: 'Grade 11
+June',
+        title: 'Send your brag sheet and context',
+        detail: 'Share a 1-page document with your activities, achievements, GPA, target schools, and a note about why you chose them. The more specific context you give, the more specific — and powerful — the letter.'
+      },
+      {
+        when: 'Grade 12
+August',
+        title: 'Send the formal request with deadlines',
+        detail: 'Follow up with all recommenders. Provide a clear list of schools and deadlines. Submit the recommendation request in Common App so they receive the official link by September 1.'
+      },
+      {
+        when: 'Grade 12
+October 1',
+        title: 'Confirm all recommenders have submitted',
+        detail: 'Check Common App status. If anyone has not submitted, send a polite reminder 2 weeks before your earliest deadline. EA/ED schools need letters by late October — do not wait until November.'
+      },
+      {
+        when: 'Grade 12
+After Decision',
+        title: 'Send a thank-you note',
+        detail: 'Email or handwrite a thank-you to every recommender — whether or not you got in. Let them know where you enrolled. This relationship may matter again in college for graduate school recommendations.'
+      }
+    ]
+  };
+}
+
+// ─── RENDER TESTING SECTION ───
+function renderTesting(data) {
+  const grid = document.getElementById('testingGrid');
+  if (!grid) return;
+  grid.innerHTML = data.tests.map(t => `
+    <div class="test-card ${t.cardClass}">
+      <div class="test-name">${t.name}</div>
+      <div class="test-full-name">${t.fullName}</div>
+      <div class="test-desc">${t.desc}</div>
+      <div class="test-meta-row">
+        ${t.chips.map(c => `<span class="test-chip ${c.type}">${c.label}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  const nmsqtBody = document.getElementById('nmsqtBody');
+  if (nmsqtBody) nmsqtBody.innerHTML = data.nmsqt.body;
+
+  const nmsqtTable = document.getElementById('nmsqtTable');
+  if (nmsqtTable) {
+    nmsqtTable.innerHTML = `
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Score Threshold</th>
+          <th>What It Means</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${data.nmsqt.table.map(row => `
+          <tr>
+            ${row.map(cell => `<td>${cell}</td>`).join('')}
+          </tr>
+        `).join('')}
+      </tbody>
+    `;
+  }
+}
+
+// ─── RENDER READINESS CHECKLIST ───
+let checklistState = {};
+
+function renderReadiness(groups) {
+  const container = document.getElementById('readinessChecklist');
+  if (!container) return;
+
+  let html = '';
+  groups.forEach((group, gi) => {
+    html += `<div class="checklist-group">
+      <div class="checklist-group-title">${group.group}</div>
+      <div class="checklist-items">
+        ${group.items.map((item, ii) => {
+          const key = gi + '_' + ii;
+          return `<div class="checklist-item" id="chk_${key}" onclick="toggleCheck('${key}')">
+            <div class="check-box" id="chkbox_${key}"></div>
+            <div>
+              <div class="check-label">${item.label}</div>
+              <div class="check-sub">${item.sub}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  updateReadinessProgress(groups);
+}
+
+function toggleCheck(key) {
+  checklistState[key] = !checklistState[key];
+  const item = document.getElementById('chk_' + key);
+  const box = document.getElementById('chkbox_' + key);
+  if (item) item.classList.toggle('done', checklistState[key]);
+  if (box) box.textContent = checklistState[key] ? '✓' : '';
+
+  // Count total items
+  const total = Object.keys(checklistState).length;
+  const done = Object.values(checklistState).filter(Boolean).length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  document.getElementById('readinessPct').textContent = pct + '%';
+  document.getElementById('readinessFill').style.width = pct + '%';
+  const msg = done === total ? '🎉 All items complete — you are ready to launch!' : `${done} of ${total} items complete`;
+  document.getElementById('readinessLabel').textContent = msg;
+}
+
+function updateReadinessProgress(groups) {
+  let total = 0;
+  groups.forEach(g => { total += g.items.length; });
+  groups.forEach((g, gi) => g.items.forEach((_, ii) => { checklistState[gi + '_' + ii] = false; }));
+  document.getElementById('readinessPct').textContent = '0%';
+  document.getElementById('readinessLabel').textContent = `0 of ${total} items complete — start checking things off`;
+}
+
+// ─── RENDER ESSAY SERVICES ───
+function renderEssayServices(data) {
+  const grid = document.getElementById('essayServicesGrid');
+  if (!grid) return;
+  grid.innerHTML = data.services.map(s => `
+    <div class="essay-card ${s.featured ? 'featured' : ''}">
+      <span class="essay-card-icon">${s.icon}</span>
+      <div class="essay-card-when">${s.when}</div>
+      <div class="essay-card-name">${s.name}</div>
+      <div class="essay-card-desc">${s.desc}</div>
+      <div class="essay-card-includes">
+        ${s.includes.map(i => `<div class="essay-include-item">${i}</div>`).join('')}
+      </div>
+      <button class="btn-essay" onclick="showUpgrade()">${s.cta}</button>
+    </div>
+  `).join('');
+
+  const steps = document.getElementById('referralSteps');
+  if (!steps) return;
+  steps.innerHTML = data.referralSteps.map(s => `
+    <div class="referral-step">
+      <div class="referral-step-left">
+        <div class="referral-step-when">${s.when.replace('\n', '<br>')}</div>
+        <div class="referral-step-dot"></div>
+        <div class="referral-step-line"></div>
+      </div>
+      <div class="referral-step-body">
+        <div class="referral-step-title">${s.title}</div>
+        <div class="referral-step-detail">${s.detail}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── GENERATE (mock for POC — swap for API call in Phase 2) ───
+async function generateRoadmap() {
+  try {
+    await new Promise(resolve => setTimeout(resolve, 2200));
+    const roadmap = getMockRoadmap(answers);
+    renderRoadmap(roadmap);
+  } catch(err) {
+    console.error('Roadmap error:', err);
+    document.getElementById('loadingScreen').classList.add('hidden');
+    document.getElementById('errorScreen').classList.add('visible');
+    document.getElementById('errorMsg').textContent = 'Render error: ' + err.message;
+  }
+}
+
+// ─── PHASE 2: REAL API CALL (wired via Next.js /api/generate route) ───
+// async function generateRoadmapLive() {
+//   const res = await fetch('/api/generate', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify(answers)
+//   });
+//   const roadmap = await res.json();
+//   renderRoadmap(roadmap);
+// }
+
+// ─── RENDER ROADMAP ───
+function renderRoadmap(data) {
+  // Update hero
+  document.getElementById('heroName').textContent = answers.name || 'Student';
+  document.getElementById('heroGrade').textContent = answers.grade || '';
+  document.getElementById('heroTrack').textContent = answers.track || '';
+  document.getElementById('statYears').textContent = data.stats?.yearsRemaining || '—';
+  document.getElementById('statCompetitions').textContent = data.stats?.competitionCount || '—';
+  document.getElementById('statPrograms').textContent = data.stats?.programCount || '—';
+  document.getElementById('statDeadlines').textContent = data.stats?.deadlineCount || '—';
+
+  // Arc
+  const arcGrid = document.getElementById('arcGrid');
+  arcGrid.innerHTML = (data.arc || []).map(phase => `
+    <div class="arc-card ${phase.cardClass || ''}">
+      <div class="arc-phase">${phase.phase}</div>
+      <div class="arc-grades">${phase.grades}</div>
+      <ul class="arc-items">
+        ${(phase.items || []).map(item => `<li class="arc-item">${item}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+
+  // Competitions
+  const compGrid = document.getElementById('competitionsGrid');
+  compGrid.innerHTML = (data.competitions || []).map(c => `
+    <div class="item-card">
+      <div class="item-card-header">
+        <div class="item-name">${c.name}</div>
+        <span class="item-badge badge-${c.badgeType || 'gray'}">${c.badge}</span>
+      </div>
+      <div class="item-desc">${c.description}</div>
+      <div class="item-meta">
+        <span class="meta-tag">📅 ${c.deadline}</span>
+        <span class="meta-tag">🎯 ${c.grade}</span>
+        <span class="meta-tag">⚡ ${c.difficulty}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Programs — first 2 free, rest locked
+  const programs = data.programs || [];
+  const freePrograms = programs.slice(0, 2);
+  const lockedPrograms = programs.slice(2);
+
+  const progGrid = document.getElementById('programsGrid');
+  progGrid.innerHTML = freePrograms.map(p => `
+    <div class="item-card">
+      <div class="item-card-header">
+        <div class="item-name">${p.name}</div>
+        <span class="item-badge badge-${p.badgeType || 'gray'}">${p.badge}</span>
+      </div>
+      <div class="item-desc">${p.description}</div>
+      <div class="item-meta">
+        <span class="meta-tag">📅 ${p.deadline}</span>
+        <span class="meta-tag">🎯 ${p.grade}</span>
+        <span class="meta-tag">💰 ${p.cost}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Locked programs — blurred preview
+  if (lockedPrograms.length > 0) {
+    document.getElementById('programsBlurContent').innerHTML = `
+      <div class="cards-grid" style="margin-top:0">
+        ${lockedPrograms.map(p => `
+          <div class="item-card">
+            <div class="item-card-header">
+              <div class="item-name">${p.name}</div>
+              <span class="item-badge badge-${p.badgeType || 'gray'}">${p.badge}</span>
+            </div>
+            <div class="item-desc">${p.description}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    document.getElementById('programsLock').style.display = 'none';
+  }
+
+  // College timeline
+  const timeline = document.getElementById('collegeTimeline');
+  timeline.innerHTML = (data.collegeTimeline || []).map(item => `
+    <div class="timeline-item">
+      <div class="timeline-left">
+        <div class="timeline-grade">${item.grade}</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-title">${item.title}</div>
+        <div class="timeline-detail">${item.detail}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Render new sections — each wrapped so one failure doesn't block the others
+  try { renderTesting(getTestingData(answers)); } catch(e) { console.error('Testing render error:', e); }
+  try { renderReadiness(getReadinessData(answers)); } catch(e) { console.error('Readiness render error:', e); }
+  try { renderEssayServices(getEssayServicesData(answers)); } catch(e) { console.error('Essays render error:', e); }
+
+  // Always show content regardless of section errors
+  document.getElementById('loadingBar').style.width = '100%';
+  document.getElementById('loadingStatus').textContent = 'Roadmap ready ✓';
+
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hidden');
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('sectionNav').style.display = 'flex';
+  }, 600);
+}
+
+// ─── SECTION SCROLL ───
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ─── UPGRADE MODAL ───
+function showUpgrade() {
+  alert('Upgrade flow coming in Phase 2 — Stripe integration.\n\nFull access: $19/month\n• Complete roadmap\n• All 8 tracks\n• Live deadline dashboard\n• Email templates\n• Unlimited exports');
+}
+
+// ─── INIT ───
+generateRoadmap();
+</script>
+</body>
+</html>
