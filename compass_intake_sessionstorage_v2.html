@@ -1061,6 +1061,14 @@ function generateRoadmap() {
   setTimeout(() => {
     window.location.href = 'compass_roadmap_sessionstorage_v2.html';
   }, 2200);
+
+  // Fallback: show manual link if redirect hasn't fired after 4s
+  setTimeout(() => {
+    if (window.location.href.indexOf('compass_roadmap') === -1) {
+      const sub = document.querySelector('.final-sub');
+      if (sub) sub.innerHTML += `<br><br><a href="compass_roadmap_sessionstorage_v2.html" style="color:#C9A84C;font-weight:600;font-size:16px;">→ Open your roadmap</a>`;
+    }
+  }, 4000);
 }
 
 // Keyboard navigation
