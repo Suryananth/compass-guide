@@ -1,0 +1,8 @@
+{
+  "name": "compass-guide",
+  "version": "1.0.0",
+  "description": "AI-powered college readiness platform for first-generation families",
+  "engines": {
+    "node": "18.x"
+  }
+}

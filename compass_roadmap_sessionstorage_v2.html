@@ -1204,7 +1204,7 @@
 
 <script>
 // ─── TOGGLE: false = sessionStorage (Phase 1b), true = Claude API (Phase 2) ───
-const USE_AI = false;
+const USE_AI = true;
 
 // ─── DEMO ANSWERS (replace with window.COMPASS_ANSWERS in production) ───
 const DEMO_ANSWERS = {
@@ -1964,13 +1964,14 @@ generateRoadmap().catch(err => {
   }
 });
 
-// Nuclear fallback — if still loading after 5s, force render
+// Nuclear fallback — if still loading after 45s, fall back to mock data
+// (Claude API typically takes 8–20 seconds — 45s gives plenty of buffer)
 setTimeout(() => {
   if (!document.getElementById('loadingScreen').classList.contains('hidden')) {
-    console.warn('Forced render after timeout');
+    console.warn('Forced render after timeout — falling back to mock data');
     try { renderRoadmap(getMockRoadmap(answers)); } catch(e) { console.error(e); }
   }
-}, 5000);
+}, 45000);
 </script>
 </body>
 </html>
