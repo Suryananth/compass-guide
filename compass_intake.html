@@ -1043,16 +1043,10 @@ function generateRoadmap() {
   }
   answers['email'] = email;
   console.log('Compass Guide — Answers:', JSON.stringify(answers, null, 2));
-  // TODO: POST to /api/generate-roadmap
-  document.querySelector('.final-screen').innerHTML = `
-    <span class="final-icon">⚡</span>
-    <div class="final-title" style="font-size:36px;">Generating your roadmap...</div>
-    <div class="final-sub">Building ${answers['name'] || 'your student'}'s 6-year plan for ${answers['track'] || 'your chosen track'}.</div>
-    <div style="width:240px;height:3px;background:rgba(201,168,76,0.15);border-radius:2px;margin:24px auto 0;overflow:hidden;">
-      <div style="height:100%;background:linear-gradient(90deg,var(--gold),var(--teal));animation:load 2s ease-in-out forwards;border-radius:2px;"></div>
-    </div>
-    <style>@keyframes load{from{width:0}to{width:100%}}</style>
-  `;
+
+  // Save answers to sessionStorage and redirect to roadmap page
+  sessionStorage.setItem('compassAnswers', JSON.stringify(answers));
+  window.location.href = 'compass_roadmap_sessionstorage_v2.html';
 }
 
 // Keyboard navigation
