@@ -69,6 +69,7 @@ function buildPrompt(a) {
 STUDENT PROFILE:
 - Name: ${name}
 - Current Grade: ${a.grade || '9th Grade'}
+- Location: ${a.location || 'United States'}
 - Track/Interest: ${track}
 - School Type: ${a.school || 'Public School'}
 - GPA Level: ${a.gpa || '3.5–3.9'}
@@ -76,6 +77,13 @@ STUDENT PROFILE:
 - Current Activities: ${a.activities || 'Nothing listed yet'}
 - Goals & Dream Colleges: ${a.goals || 'Not specified'}
 - Who filled this out: ${a.who || 'A parent'}${a.custom ? `\n- Additional question/context: ${a.custom}` : ''}
+
+LOCATION GUIDANCE: Use the student's location (${a.location || 'United States'}) to personalize recommendations with:
+- State-specific competitions (e.g. Virginia: VSEF, Governor's School, VHSL)
+- County/district programs (e.g. Loudoun County: LCPS dual enrollment, NOVA partnerships, TJ feeder path)
+- Regional scholarships and local opportunities
+- In-state university advantages and flagship school strategy
+- Reference specific local institutions, programs, and deadlines by name wherever possible
 
 Return ONLY a valid JSON object. NO markdown. NO code blocks. NO explanation before or after. Just raw JSON.
 

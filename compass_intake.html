@@ -784,8 +784,17 @@ const questions = [
     cols: 'cols-2'
   },
   {
-    id: 'track',
+    id: 'location',
     num: 5,
+    label: 'LOCATION',
+    text: 'What county and state is the student in?',
+    hint: 'We use this to find local programs, state competitions, and regional scholarships.',
+    type: 'text',
+    placeholder: 'e.g. Loudoun County, VA'
+  },
+  {
+    id: 'track',
+    num: 6,
     label: 'STUDENT TRACK',
     text: 'Which path feels closest to the student\'s direction?',
     hint: 'You can always change this. Pick what feels true right now.',
@@ -793,7 +802,7 @@ const questions = [
   },
   {
     id: 'gpa',
-    num: 6,
+    num: 7,
     label: 'ACADEMIC LEVEL',
     text: 'How would you describe the student\'s current grades?',
     hint: 'No judgment — this helps calibrate competition difficulty.',
@@ -803,7 +812,7 @@ const questions = [
   },
   {
     id: 'time',
-    num: 7,
+    num: 8,
     label: 'TIME AVAILABLE',
     text: 'How much time can the student realistically commit each week?',
     hint: 'Outside of school and homework.',
@@ -813,7 +822,7 @@ const questions = [
   },
   {
     id: 'activities',
-    num: 8,
+    num: 9,
     label: 'CURRENT ACTIVITIES',
     text: 'What is the student already doing outside of school?',
     hint: 'Sports, clubs, music, volunteering — anything counts. Or "nothing yet."',
@@ -822,7 +831,7 @@ const questions = [
   },
   {
     id: 'goals',
-    num: 9,
+    num: 10,
     label: 'GOALS & DREAMS',
     text: 'Any dream colleges, careers, or goals in mind?',
     hint: 'Even vague is fine. "Something in medicine" or "MIT" both work.',
